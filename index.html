@@ -6,7 +6,6 @@
   <title>Aiden Brew Studio</title>
   <style>
     :root {
-      /* Light Mode Variables */
       --bg-color: #ffffff;
       --text-color: #1a1a1a;
       --card-bg: #f5f5f5;
@@ -23,100 +22,37 @@
 
     @media (prefers-color-scheme: dark) {
       :root {
-        /* Dark Mode Variables */
-        --bg-color: #121212;
-        --text-color: #e0e0e0;
-        --card-bg: #1e1e1e;
-        --border-color: #333333;
-        --accent-color: #4da3ff;
-        --accent-hover: #1a8cff;
-        --warning-bg: #4d3e00;
-        --warning-text: #ffe066;
+        --bg-color: #121212; --text-color: #e0e0e0; --card-bg: #1e1e1e;
+        --border-color: #333333; --accent-color: #4da3ff; --accent-hover: #1a8cff;
+        --warning-bg: #4d3e00; --warning-text: #ffe066;
       }
     }
 
     * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; font-family: var(--font-ui); background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    label, .metadata, .tag, .step-indicator, code { font-family: var(--font-mono); font-size: 0.85rem; }
+    h1, h2, h3, h4 { margin-top: 0; }
     
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: var(--font-ui);
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Monospace elements */
-    label, .metadata, .tag, .step-indicator, code {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-    }
-
-    h1, h2, h3 { margin-top: 0; }
-    
-    button {
-      background-color: var(--accent-color);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 0 16px;
-      min-height: 44px; /* Minimum touch target */
-      font-size: 1rem;
-      cursor: pointer;
-      font-family: var(--font-ui);
-      transition: background-color 0.2s;
-    }
+    button { background-color: var(--accent-color); color: #fff; border: none; border-radius: 8px; padding: 0 16px; min-height: 44px; font-size: 1rem; cursor: pointer; font-family: var(--font-ui); transition: background-color 0.2s; }
     button:hover { background-color: var(--accent-hover); }
     button.secondary { background-color: transparent; color: var(--accent-color); border: 1px solid var(--accent-color); }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    input, textarea, select {
-      width: 100%;
-      min-height: 44px; /* Minimum touch target */
-      padding: 8px 12px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: var(--font-ui);
-      margin-bottom: 16px;
-    }
+    input, textarea, select { width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-ui); margin-bottom: 16px; }
     
-    /* Layout */
     .app-container { flex: 1; overflow-y: auto; padding: 16px; padding-bottom: 80px; }
-    
-    /* Tabs */
-    .tab-bar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      display: flex;
-      background-color: var(--card-bg);
-      border-bottom: 1px solid var(--border-color);
-      z-index: 10;
-    }
-    .tab-btn {
-      flex: 1;
-      background: none;
-      color: var(--text-color);
-      border-radius: 0;
-      border-bottom: 3px solid transparent;
-      opacity: 0.7;
-    }
+    .tab-bar { position: fixed; top: 0; left: 0; right: 0; display: flex; background-color: var(--card-bg); border-bottom: 1px solid var(--border-color); z-index: 10; }
+    .tab-btn { flex: 1; background: none; color: var(--text-color); border-radius: 0; border-bottom: 3px solid transparent; opacity: 0.7; }
     .tab-btn.active { opacity: 1; border-bottom-color: var(--accent-color); font-weight: bold; }
     .app-content { margin-top: 50px; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Cards & Grids */
     .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     
-    /* Step Progress Bar */
     .step-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-family: var(--font-mono); font-size: 0.75rem; }
-    .step { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; color: gray; }
+    .step { display: flex; flex-direction: column; align-items: center; position: relative; z-index: 1; color: gray; flex: 1; }
     .step.active, .step.completed { color: var(--accent-color); }
     .step-dot { width: 24px; height: 24px; border-radius: 50%; background-color: var(--card-bg); border: 2px solid gray; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
     .step.active .step-dot { border-color: var(--accent-color); font-weight: bold; }
@@ -127,49 +63,96 @@
     .step-content { display: none; }
     .step-content.active { display: block; }
 
-    /* Visualizations */
-    .chart-container { display: flex; align-items: flex-end; gap: 8px; height: 180px; margin: 24px 0; padding-bottom: 24px; border-bottom: 1px solid var(--border-color); overflow-x: auto; }
-    .bar-wrapper { display: flex; flex-direction: column; align-items: center; width: 40px; }
-    .bar { width: 20px; background-color: var(--accent-color); border-radius: 4px 4px 0 0; }
-    .bar-label { font-family: var(--font-mono); font-size: 0.7rem; margin-top: 4px; text-align: center; }
-    .bar-temp { font-family: var(--font-mono); font-size: 0.7rem; margin-bottom: 4px; }
-
-    /* Chips */
     .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
     .chip { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border-color); cursor: pointer; user-select: none; min-height: 44px; display: flex; align-items: center;}
     .chip.enjoy.selected { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
     .chip.avoid.selected { background-color: var(--error-color); color: white; border-color: var(--error-color); }
 
-    /* Utils */
-    .warning-box { background-color: var(--warning-bg); color: var(--warning-text); padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 0.9rem; }
     .metadata-label { color: gray; display: block; margin-bottom: 2px; }
     .metadata-value { font-weight: bold; margin-bottom: 12px; display: block; }
-    .loading { display: inline-block; animation: blink 1.4s infinite both; }
+    .loading { display: inline-block; animation: blink 1.4s infinite both; font-family: var(--font-mono); color: var(--accent-color); }
     @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
-    
+
+    /* Chat UI */
+    .chat-container { border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-color); display: flex; flex-direction: column; height: 300px; margin-bottom: 16px; }
+    .chat-history { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+    .chat-bubble { max-width: 85%; padding: 10px 14px; border-radius: 12px; font-size: 0.95rem; line-height: 1.4; }
+    .chat-user { background-color: var(--accent-color); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .chat-ai { background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--border-color); align-self: flex-start; border-bottom-left-radius: 4px; }
+    .chat-input-area { display: flex; padding: 8px; border-top: 1px solid var(--border-color); gap: 8px; background: var(--card-bg); border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+    .chat-input-area input { margin-bottom: 0; flex: 1; }
+
     /* Onboarding Overlay */
-    #onboarding { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-color); z-index: 100; padding: 24px; overflow-y: auto; display: none; }
-    #onboarding.active { display: block; }
+    #onboarding { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-color); z-index: 100; padding: 24px; overflow-y: auto; display: none; flex-direction: column; }
+    #onboarding.active { display: flex; }
+    .ob-step { display: none; flex-direction: column; flex: 1; }
+    .ob-step.active { display: flex; }
+    .ob-status { color: var(--success-color); font-family: var(--font-mono); text-align: center; height: 20px; margin-bottom: 16px; }
   </style>
 </head>
 <body>
 
   <div id="onboarding">
-    <h2>Welcome to Aiden Brew Studio ☕</h2>
-    <p>Your intelligent pour-over profile generator for the Fellow Aiden.</p>
-    <div class="card">
-      <p><strong>1. Account</strong><br>Add your Gemini API key and Fellow credentials.</p>
-      <p><strong>2. Gear</strong><br>Log your grinders and default doses.</p>
-      <p><strong>3. Preferences</strong><br>Tell us the flavors you love and hate.</p>
-      <p><strong>4. Brew</strong><br>Describe your coffee and let the AI do the rest!</p>
+    <div id="ob-1" class="ob-step active">
+      <h2>1. Accounts & APIs</h2>
+      <p>Let's get your connections set up.</p>
+      <label class="metadata-label">Google Gemini API Key</label>
+      <input type="password" id="ob-api-key" placeholder="AIzaSy...">
+      <label class="metadata-label">Brewshare Email (For 1-click publishing)</label>
+      <input type="email" id="ob-email" placeholder="name@domain.com">
+      <div style="flex:1;"></div>
+      <div class="ob-status" id="ob-status-1"></div>
+      <button id="btn-ob-1">Save & Continue</button>
     </div>
-    <button id="btn-get-started" style="width: 100%;">Get Started</button>
+
+    <div id="ob-2" class="ob-step">
+      <h2>2. Your Equipment</h2>
+      <p>What are you brewing with?</p>
+      <label class="metadata-label">Water Source</label>
+      <select id="ob-water-source">
+        <option>Filtered</option><option>Tap</option><option>Bottled</option><option>RO + remineralized</option><option>Third Wave Water</option>
+      </select>
+      <label class="metadata-label">Water Details (TDS or Setup)</label>
+      <input type="text" id="ob-water-notes" placeholder="e.g., Waterdrop filter, 150ppm">
+      
+      <h3>Grinders</h3>
+      <div id="ob-grinder-list"></div>
+      <button class="secondary" id="btn-ob-add-grinder" style="width: 100%; margin-bottom: 16px;">+ Add grinder</button>
+      
+      <div style="flex:1;"></div>
+      <div class="ob-status" id="ob-status-2"></div>
+      <button id="btn-ob-2">Save & Continue</button>
+    </div>
+
+    <div id="ob-3" class="ob-step">
+      <h2>3. Preferences</h2>
+      <p>Set your target volumes and tasting notes.</p>
+      <div class="grid-2">
+        <div>
+          <label class="metadata-label">Single Serve (mL)</label>
+          <input type="number" id="ob-vol-single" step="50" min="50" max="450" value="300">
+        </div>
+        <div>
+          <label class="metadata-label">Batch Brew (mL)</label>
+          <input type="number" id="ob-vol-batch" step="50" min="500" max="1500" value="600">
+        </div>
+      </div>
+      
+      <h3>I enjoy</h3>
+      <div class="chip-group" id="ob-chips-enjoy"></div>
+      <h3>I avoid</h3>
+      <div class="chip-group" id="ob-chips-avoid"></div>
+
+      <div style="flex:1;"></div>
+      <div class="ob-status" id="ob-status-3"></div>
+      <button id="btn-ob-3">Finish Setup</button>
+    </div>
   </div>
 
   <nav class="tab-bar">
     <button class="tab-btn active" data-tab="brew">Brew</button>
     <button class="tab-btn" data-tab="history">History</button>
-    <button class="tab-btn" data-tab="prefs">Preferences</button>
+    <button class="tab-btn" data-tab="prefs">Prefs</button>
     <button class="tab-btn" data-tab="gear">Gear</button>
     <button class="tab-btn" data-tab="account">Account</button>
   </nav>
@@ -179,74 +162,73 @@
     <section id="tab-brew" class="tab-content active">
       <div class="step-bar">
         <div class="step active" id="indicator-1"><div class="step-dot">1</div><div class="step-line"></div>Coffee</div>
-        <div class="step" id="indicator-2"><div class="step-dot">2</div><div class="step-line"></div>Browse</div>
+        <div class="step" id="indicator-2"><div class="step-dot">2</div><div class="step-line"></div>Search</div>
         <div class="step" id="indicator-3"><div class="step-dot">3</div><div class="step-line"></div>Profile</div>
-        <div class="step" id="indicator-4"><div class="step-dot">4</div><div class="step-line"></div>Grind</div>
-        <div class="step" id="indicator-5"><div class="step-dot">5</div>Done</div>
+        <div class="step" id="indicator-4"><div class="step-dot">4</div>Done</div>
       </div>
 
       <div id="step-1" class="step-content active">
-        <h3>Describe your coffee</h3>
-        <textarea id="coffee-input" rows="4" placeholder="e.g. Onyx Coffee Lab Monarch blend, roasted last Tuesday"></textarea>
-        <button id="btn-analyze-coffee">Analyze coffee</button>
-        <div id="coffee-analysis-status" style="margin-top: 10px; font-family: var(--font-mono); color: var(--accent-color);"></div>
+        <h3>Coffee Details</h3>
+        <label class="metadata-label">Roaster & Name</label>
+        <input type="text" id="coffee-name" placeholder="e.g., Flower Child, Aviary, or PERC">
+        <label class="metadata-label">Roast Date or Age</label>
+        <input type="text" id="coffee-age" placeholder="e.g., 2 weeks ago">
+        <button id="btn-analyze-coffee" style="width: 100%;">Analyze & Get Recs</button>
+        <div id="coffee-analysis-status" style="margin-top: 12px; text-align: center;"></div>
         
         <div id="coffee-result" class="card" style="display: none; margin-top: 16px;">
           <div class="grid-2" id="coffee-meta-grid"></div>
-          <p><strong>Character:</strong> <span id="coffee-character"></span></p>
-          <p><strong>Water Note:</strong> <span id="coffee-water"></span></p>
-          <div class="warning-box"><strong>Watch Out:</strong> <span id="coffee-watchout"></span></div>
-          <div style="display: flex; gap: 8px; margin-top: 16px;">
-            <button class="secondary" id="btn-reanalyze">Re-analyze</button>
-            <button id="btn-to-browse">Browse profiles →</button>
-          </div>
+          <hr style="border:0; border-top:1px solid var(--border-color); margin: 12px 0;">
+          <p><strong>💡 AI Recommendations:</strong></p>
+          <p id="coffee-recs" style="font-size: 0.9rem;"></p>
+          <button id="btn-to-browse" style="width: 100%; margin-top: 12px;">Search Brewshare Profiles →</button>
         </div>
       </div>
 
       <div id="step-2" class="step-content">
         <h3>Community Profiles</h3>
-        <div id="browse-status" style="font-family: var(--font-mono); margin-bottom: 12px;"></div>
+        <div id="browse-status" style="margin-bottom: 12px;"></div>
         <div id="browse-results" class="grid-2"></div>
-        <button id="btn-generate-new" style="width: 100%; margin-top: 16px;">Generate new AI profile</button>
+        <button id="btn-generate-new" style="width: 100%; margin-top: 24px;">None match — Generate AI Profile</button>
       </div>
 
       <div id="step-3" class="step-content">
-        <h3 id="profile-title-display">Generated Profile</h3>
-        <div class="card grid-2" id="profile-meta-grid"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="margin:0;" id="profile-title-display">Profile</h3>
+          <span class="tag" id="profile-grind-display" style="color:var(--accent-color);"></span>
+        </div>
         
-        <h4>Pour Sequence</h4>
-        <div class="chart-container" id="profile-chart"></div>
+        <div class="card grid-2" id="profile-meta-grid" style="margin-bottom: 16px;"></div>
 
-        <div class="card">
-          <strong>Why this profile:</strong>
-          <p id="profile-why"></p>
+        <div class="chat-container">
+          <div class="chat-history" id="chat-history">
+            <div class="chat-bubble chat-ai">I've generated an initial profile. Want me to adjust the ratio, temp, or bloom?</div>
+          </div>
+          <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="e.g., Make it sweeter, push ratio to 1:16...">
+            <button id="btn-chat-send">Send</button>
+          </div>
         </div>
 
-        <div id="profile-actions" style="display: flex; flex-direction: column; gap: 8px;">
-          <div id="push-status" style="font-family: var(--font-mono); color: var(--success-color);"></div>
-          <button id="btn-push-aiden">Push to Aiden</button>
-          <button class="secondary" id="btn-submit-brewshare">Submit to Brewshare</button>
-          <button class="secondary" id="btn-copy-json">Copy JSON</button>
-          <button id="btn-to-grind" style="margin-top: 16px;">Grind settings →</button>
-        </div>
+        <button id="btn-to-done" style="width: 100%;">Confirm & Finalize →</button>
       </div>
 
-      <div id="step-4" class="step-content">
-        <h3>Grind Settings</h3>
-        <div id="grind-status" style="font-family: var(--font-mono); margin-bottom: 12px;"></div>
-        <div id="grind-results"></div>
-        <div class="card" id="grind-tips" style="display: none;">
-          <h4>Brewing Tips</h4>
-          <ul id="grind-tips-list" style="padding-left: 20px;"></ul>
-        </div>
-        <button id="btn-to-done" style="width: 100%; margin-top: 16px;">Finish Brew →</button>
-      </div>
-
-      <div id="step-5" class="step-content" style="text-align: center; padding-top: 40px;">
+      <div id="step-4" class="step-content" style="text-align: center; padding-top: 20px;">
         <h1 style="font-size: 3rem; margin-bottom: 0;">☕</h1>
-        <h2>Brew ready</h2>
-        <p id="done-link" style="font-family: var(--font-mono); margin-bottom: 24px; color: var(--accent-color); word-break: break-all;"></p>
-        <button id="btn-new-brew">New brew</button>
+        <h2>Brew Confirmed</h2>
+        <p style="color: gray;">Your profile is saved locally.</p>
+        
+        <div id="share-container" class="card" style="margin-top: 24px;">
+          <p>Share to Brewshare to generate a <strong>brew.link</strong> you can open in the Fellow app.</p>
+          <div id="share-status" style="margin-bottom: 12px;"></div>
+          <button id="btn-share-brewshare" style="width: 100%;">Create brew.link</button>
+        </div>
+
+        <div id="link-container" style="display:none; margin-top: 24px; font-family: var(--font-mono); word-break: break-all;">
+          <a id="done-link" href="#" target="_blank" style="color: var(--accent-color); font-size: 1.1rem;"></a>
+        </div>
+        
+        <button id="btn-new-brew" class="secondary" style="width: 100%; margin-top: 32px;">Start New Brew</button>
       </div>
     </section>
 
@@ -257,79 +239,34 @@
     </section>
 
     <section id="tab-prefs" class="tab-content">
-      <h2>Preferences</h2>
-      <div id="prefs-save-status" style="color: var(--success-color); font-family: var(--font-mono); height: 20px;"></div>
-      
-      <h3>I enjoy</h3>
-      <div class="chip-group" id="chips-enjoy">
-        </div>
-
-      <h3>I avoid</h3>
-      <div class="chip-group" id="chips-avoid">
-        </div>
-
-      <h3>Brew Settings</h3>
-      <label class="metadata-label">Body</label>
-      <select id="pref-body">
-        <option>Any</option><option>Light</option><option>Medium</option><option>Full</option>
-      </select>
-      <label class="metadata-label">Acidity</label>
-      <select id="pref-acidity">
-        <option>Any</option><option>Low</option><option>Medium</option><option>Bright</option>
-      </select>
-      <label class="metadata-label">Strength</label>
-      <select id="pref-strength">
-        <option>Any</option><option>Gentle</option><option>Standard</option><option>Strong</option>
-      </select>
-      <label class="metadata-label">Brew Aim</label>
-      <select id="pref-aim">
-        <option>Balanced</option><option>Sweet</option><option>Clarity</option><option>Complexity</option><option>Comfort</option>
-      </select>
-
-      <h3>Water Source</h3>
-      <select id="pref-water-source">
-        <option>Tap</option><option>Filtered</option><option>Bottled</option><option>RO + remineralized</option><option>Third Wave Water</option>
-      </select>
-      <label class="metadata-label">TDS (ppm)</label>
-      <input type="number" id="pref-water-tds" placeholder="e.g. 150">
-      <label class="metadata-label">Water Notes</label>
-      <textarea id="pref-water-notes" rows="2" placeholder="Describe your water..."></textarea>
+      <h2>Preferences</h2><div id="prefs-save-status" class="ob-status"></div>
+      <div class="grid-2">
+        <div><label class="metadata-label">Single Serve (mL)</label><input type="number" id="pref-vol-single" step="50" min="50"></div>
+        <div><label class="metadata-label">Batch Brew (mL)</label><input type="number" id="pref-vol-batch" step="50" min="500"></div>
+      </div>
+      <h3>I enjoy</h3><div class="chip-group" id="chips-enjoy"></div>
+      <h3>I avoid</h3><div class="chip-group" id="chips-avoid"></div>
     </section>
 
     <section id="tab-gear" class="tab-content">
-      <h2>Gear</h2>
-      <div class="card">
-        <label class="metadata-label">Default Dose (g)</label>
-        <input type="number" id="gear-dose" placeholder="e.g. 15">
-      </div>
-      
-      <div id="grinder-list"></div>
+      <h2>Gear</h2><div id="gear-save-status" class="ob-status"></div>
+      <label class="metadata-label">Water Source</label>
+      <select id="gear-water-source"><option>Filtered</option><option>Tap</option><option>Bottled</option><option>RO + remineralized</option><option>Third Wave Water</option></select>
+      <label class="metadata-label">Water Details</label>
+      <input type="text" id="gear-water-notes">
+      <h3>Grinders</h3>
+      <div id="gear-grinder-list"></div>
       <button class="secondary" id="btn-add-grinder" style="width: 100%; margin-bottom: 16px;">+ Add grinder</button>
       <button id="btn-save-gear" style="width: 100%;">Save Gear</button>
-      <div id="gear-save-status" style="color: var(--success-color); font-family: var(--font-mono); margin-top: 8px; text-align: center;"></div>
     </section>
 
     <section id="tab-account" class="tab-content">
-      <h2>Account & API</h2>
-      <div class="warning-box">Credentials are stored locally in your browser and used only for API calls.</div>
-      
+      <h2>Account & API</h2><div id="acc-save-status" class="ob-status"></div>
       <div class="card">
-        <h3>Google Gemini API</h3>
-        <label class="metadata-label">API Key</label>
-        <input type="password" id="acc-api-key" placeholder="AIzaSy...">
-        <small style="display: block; margin-bottom: 16px; color: gray;">Get a free key from Google AI Studio.</small>
+        <label class="metadata-label">Gemini API Key</label><input type="password" id="acc-api-key">
+        <label class="metadata-label">Brewshare Email</label><input type="email" id="acc-email">
       </div>
-
-      <div class="card">
-        <h3>Fellow Account</h3>
-        <label class="metadata-label">Email</label>
-        <input type="email" id="acc-email" placeholder="name@domain.com">
-        <label class="metadata-label">Password</label>
-        <input type="password" id="acc-password" placeholder="••••••••">
-      </div>
-      
       <button id="btn-save-account" style="width: 100%;">Save Credentials</button>
-      <div id="acc-save-status" style="color: var(--success-color); font-family: var(--font-mono); margin-top: 8px; text-align: center;"></div>
     </section>
 
   </div>
@@ -342,11 +279,11 @@
     };
 
     let appState = {
-      currentTab: 'brew', currentStep: 1,
-      session: { coffeeInput: "", coffeeData: null, profileData: null, brewLink: null },
-      prefs: STORAGE.get('abs_prefs', { enjoy: [], avoid: [], body: 'Any', acidity: 'Any', strength: 'Any', aim: 'Balanced', waterSource: 'Filtered', waterTds: '', waterNotes: '' }),
-      gear: STORAGE.get('abs_gear', { defaultDose: 15, grinders: [] }),
-      account: STORAGE.get('abs_account', { email: '', password: '' }),
+      currentStep: 1,
+      session: { coffeeInput: "", coffeeData: null, profileData: null, chatHistory: [], link: null },
+      prefs: STORAGE.get('abs_prefs', { enjoy: [], avoid: [], singleVol: 300, batchVol: 600 }),
+      gear: STORAGE.get('abs_gear', { waterSource: 'Filtered', waterNotes: '', grinders: [] }),
+      account: STORAGE.get('abs_account', { email: '' }),
       history: STORAGE.get('abs_history', []),
       apiKey: localStorage.getItem('abs_apikey') || ''
     };
@@ -356,22 +293,22 @@
       avoid: ['bitter', 'astringent', 'smoky', 'earthy', 'fermented', 'sour', 'thin body', 'flat']
     };
 
+    const JSON_SCHEMA = `{ profileType: 0, title: "String", ratio: Number, bloomEnabled: Boolean, bloomRatio: Number, bloomDuration: Number, bloomTemperature: Number, ssPulsesEnabled: Boolean, ssPulsesNumber: Number, ssPulsesInterval: Number, ssPulseTemperatures: [Numbers], batchPulsesEnabled: Boolean, batchPulsesNumber: Number, batchPulsesInterval: Number, batchPulseTemperatures: [Numbers], grinderModel: "String", grindSetting: "String" }`;
+
     // --- INIT ---
     function init() {
       if (!localStorage.getItem('abs_onboarded')) {
         document.getElementById('onboarding').classList.add('active');
+        if(appState.gear.grinders.length === 0) appState.gear.grinders.push({model: '', burr: ''});
+        renderOBGear();
+        renderChips('ob-chips-enjoy', 'enjoy');
+        renderChips('ob-chips-avoid', 'avoid');
       }
-      document.getElementById('btn-get-started').addEventListener('click', () => {
-        localStorage.setItem('abs_onboarded', 'true');
-        document.getElementById('onboarding').classList.remove('active');
-      });
 
       setupTabs();
-      renderPrefs();
-      renderGear();
-      renderAccount();
-      renderHistory();
+      syncFormToState();
       bindEvents();
+      renderHistory();
     }
 
     // --- NAVIGATION ---
@@ -383,8 +320,8 @@
           document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
           e.target.classList.add('active');
           document.getElementById(`tab-${tab}`).classList.add('active');
-          appState.currentTab = tab;
           if (tab === 'history') renderHistory();
+          if (tab !== 'brew') syncFormToState();
         });
       });
     }
@@ -400,12 +337,107 @@
       });
     }
 
+    // --- ONBOARDING LOGIC ---
+    document.getElementById('btn-ob-1').addEventListener('click', () => {
+      appState.apiKey = document.getElementById('ob-api-key').value;
+      appState.account.email = document.getElementById('ob-email').value;
+      localStorage.setItem('abs_apikey', appState.apiKey);
+      STORAGE.set('abs_account', appState.account);
+      document.getElementById('ob-1').classList.remove('active');
+      document.getElementById('ob-2').classList.add('active');
+    });
+
+    document.getElementById('btn-ob-add-grinder').addEventListener('click', () => {
+      appState.gear.grinders.push({ model: '', burr: '' });
+      renderOBGear();
+    });
+
+    function renderOBGear() {
+      const list = document.getElementById('ob-grinder-list');
+      list.innerHTML = '';
+      appState.gear.grinders.forEach((g, i) => {
+        list.innerHTML += `
+          <div class="grid-2" style="margin-bottom:8px;">
+            <input type="text" placeholder="e.g., Niche Zero" value="${g.model}" onchange="appState.gear.grinders[${i}].model = this.value">
+            <input type="text" placeholder="Burr (optional)" value="${g.burr}" onchange="appState.gear.grinders[${i}].burr = this.value">
+          </div>
+        `;
+      });
+    }
+
+    document.getElementById('btn-ob-2').addEventListener('click', () => {
+      appState.gear.waterSource = document.getElementById('ob-water-source').value;
+      appState.gear.waterNotes = document.getElementById('ob-water-notes').value;
+      appState.gear.grinders = appState.gear.grinders.filter(g => g.model.trim() !== '');
+      STORAGE.set('abs_gear', appState.gear);
+      document.getElementById('ob-2').classList.remove('active');
+      document.getElementById('ob-3').classList.add('active');
+    });
+
+    document.getElementById('btn-ob-3').addEventListener('click', () => {
+      appState.prefs.singleVol = parseInt(document.getElementById('ob-vol-single').value);
+      appState.prefs.batchVol = parseInt(document.getElementById('ob-vol-batch').value);
+      STORAGE.set('abs_prefs', appState.prefs);
+      localStorage.setItem('abs_onboarded', 'true');
+      document.getElementById('onboarding').classList.remove('active');
+      syncFormToState();
+    });
+
+    // --- CHIPS UI ---
+    function renderChips(containerId, type) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = FLAVORS[type].map(f => {
+        const selected = appState.prefs[type].includes(f);
+        return `<div class="chip ${type} ${selected ? 'selected' : ''}" data-type="${type}" data-flavor="${f}">${f}</div>`;
+      }).join('');
+    }
+
+    function toggleChip(e) {
+      if(!e.target.classList.contains('chip')) return;
+      const type = e.target.dataset.type;
+      const flavor = e.target.dataset.flavor;
+      if(appState.prefs[type].includes(flavor)) {
+        appState.prefs[type] = appState.prefs[type].filter(f => f !== flavor);
+        e.target.classList.remove('selected');
+      } else {
+        appState.prefs[type].push(flavor);
+        e.target.classList.add('selected');
+      }
+      STORAGE.set('abs_prefs', appState.prefs);
+    }
+
+    document.getElementById('ob-chips-enjoy').addEventListener('click', toggleChip);
+    document.getElementById('ob-chips-avoid').addEventListener('click', toggleChip);
+    document.getElementById('chips-enjoy').addEventListener('click', toggleChip);
+    document.getElementById('chips-avoid').addEventListener('click', toggleChip);
+
+    // --- SYNC STATE TO TABS ---
+    function syncFormToState() {
+      document.getElementById('acc-api-key').value = appState.apiKey;
+      document.getElementById('acc-email').value = appState.account.email;
+      
+      document.getElementById('pref-vol-single').value = appState.prefs.singleVol;
+      document.getElementById('pref-vol-batch').value = appState.prefs.batchVol;
+      renderChips('chips-enjoy', 'enjoy');
+      renderChips('chips-avoid', 'avoid');
+
+      document.getElementById('gear-water-source').value = appState.gear.waterSource;
+      document.getElementById('gear-water-notes').value = appState.gear.waterNotes;
+      
+      const gList = document.getElementById('gear-grinder-list');
+      gList.innerHTML = '';
+      appState.gear.grinders.forEach((g, i) => {
+        gList.innerHTML += `<div class="grid-2" style="margin-bottom:8px;"><input type="text" value="${g.model}" onchange="appState.gear.grinders[${i}].model = this.value"><input type="text" value="${g.burr}" onchange="appState.gear.grinders[${i}].burr = this.value"></div>`;
+      });
+    }
+
     // --- API WRAPPERS ---
-    async function callGemini(promptText) {
-      if (!appState.apiKey) throw new Error("API Key missing. Add it in the Account tab.");
+    async function callGemini(systemInstruction, messages) {
+      if (!appState.apiKey) throw new Error("API Key missing.");
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${appState.apiKey}`;
       const payload = {
-        contents: [{ parts: [{ text: promptText }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        contents: messages,
         generationConfig: { responseMimeType: "application/json" }
       };
       const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
@@ -416,18 +448,19 @@
 
     // --- STEP 1: COFFEE ---
     async function analyzeCoffee() {
-      const input = document.getElementById('coffee-input').value.trim();
-      if (!input) return;
-      appState.session.coffeeInput = input;
+      const name = document.getElementById('coffee-name').value.trim();
+      const age = document.getElementById('coffee-age').value.trim();
+      if (!name) return;
       
       const statusEl = document.getElementById('coffee-analysis-status');
-      statusEl.innerHTML = '<span class="loading">Analyzing...</span>';
+      statusEl.innerHTML = '<span class="loading">Researching coffee & generating recommendations...</span>';
       
-      const prompt = `You are a specialty coffee expert. The user describes their coffee: "${input}". Research this roaster and coffee. Return ONLY a JSON object (no markdown) with: name, roaster, origin, process, roastLevel, roastDate, freshness (e.g. "Peak - 8 days post roast"), flavors (comma-separated tasting notes), character (2 sentences on what makes it interesting), waterNote (how water source: ${appState.prefs.waterSource}, TDS: ${appState.prefs.waterTds}, notes: ${appState.prefs.waterNotes} will interact with this coffee), watchOut (one thing to watch when brewing).`;
+      const sys = "You are a specialty coffee expert. Return ONLY valid JSON.";
+      const prompt = `Coffee: ${name}. Age: ${age}. User Water: ${appState.gear.waterSource} (${appState.gear.waterNotes}). User Grinders: ${JSON.stringify(appState.gear.grinders)}. Return JSON: { roaster, origin, process, roastLevel, flavors: "string", waterRec: "1 sentence", grinderRec: "1 sentence on which grinder to use and baseline setting" }`;
       
       try {
-        const result = await callGemini(prompt);
-        appState.session.coffeeData = result;
+        const result = await callGemini(sys, [{ role: "user", parts: [{ text: prompt }] }]);
+        appState.session.coffeeData = { ...result, name, age };
         renderCoffeeResult(result);
         statusEl.innerText = "";
         document.getElementById('coffee-result').style.display = 'block';
@@ -437,26 +470,21 @@
     }
 
     function renderCoffeeResult(data) {
-      const grid = document.getElementById('coffee-meta-grid');
-      grid.innerHTML = `
-        <div><span class="metadata-label">Roaster</span><span class="metadata-value">${data.roaster}</span></div>
-        <div><span class="metadata-label">Name</span><span class="metadata-value">${data.name}</span></div>
-        <div><span class="metadata-label">Origin</span><span class="metadata-value">${data.origin}</span></div>
-        <div><span class="metadata-label">Process</span><span class="metadata-value">${data.process}</span></div>
-        <div><span class="metadata-label">Roast Level</span><span class="metadata-value">${data.roastLevel}</span></div>
-        <div><span class="metadata-label">Freshness</span><span class="metadata-value">${data.freshness}</span></div>
-        <div style="grid-column: 1 / -1"><span class="metadata-label">Flavors</span><span class="metadata-value tag">${data.flavors}</span></div>
+      document.getElementById('coffee-meta-grid').innerHTML = `
+        <div><span class="metadata-label">Roaster</span><span class="metadata-value">${data.roaster || '-'}</span></div>
+        <div><span class="metadata-label">Origin</span><span class="metadata-value">${data.origin || '-'}</span></div>
+        <div><span class="metadata-label">Process</span><span class="metadata-value">${data.process || '-'}</span></div>
+        <div><span class="metadata-label">Roast</span><span class="metadata-value">${data.roastLevel || '-'}</span></div>
+        <div style="grid-column: 1 / -1"><span class="metadata-label">Flavors</span><span class="metadata-value tag">${data.flavors || '-'}</span></div>
       `;
-      document.getElementById('coffee-character').innerText = data.character;
-      document.getElementById('coffee-water').innerText = data.waterNote;
-      document.getElementById('coffee-watchout').innerText = data.watchOut;
+      document.getElementById('coffee-recs').innerHTML = `<strong>Water:</strong> ${data.waterRec}<br><br><strong>Grind:</strong> ${data.grinderRec}`;
     }
 
-    // --- STEP 2: BROWSE ---
-    async function browseProfiles() {
+    // --- STEP 2: SEARCH BROWSE ---
+    async function searchBrewshare() {
       setStep(2);
       const data = appState.session.coffeeData;
-      const query = encodeURIComponent(`${data.name} ${data.roaster} ${data.origin}`);
+      const query = encodeURIComponent(`${data.name} ${data.roaster || ''}`);
       const statusEl = document.getElementById('browse-status');
       statusEl.innerHTML = '<span class="loading">Searching Brewshare...</span>';
       
@@ -466,7 +494,7 @@
         renderBrowseResults(profiles.data || []);
         statusEl.innerText = "";
       } catch (err) {
-        statusEl.innerText = "Could not reach Brewshare. Generating new profile recommended.";
+        statusEl.innerText = "Could not reach Brewshare.";
         renderBrowseResults([]);
       }
     }
@@ -475,197 +503,163 @@
       const container = document.getElementById('browse-results');
       container.innerHTML = '';
       if (profiles.length === 0) {
-        container.innerHTML = '<div style="grid-column: 1/-1; padding: 16px; text-align:center; color:gray;">No community profiles found for this coffee.</div>';
+        container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color:gray;">No exact community matches found.</div>';
       } else {
         profiles.forEach(p => {
           const card = document.createElement('div');
-          card.className = 'card';
-          card.style.cursor = 'pointer';
-          card.innerHTML = `
-            <strong>${p.title}</strong>
-            <div style="font-family: var(--font-mono); font-size: 0.8rem; margin-top:8px;">
-              Ratio: 1:${p.ratio}<br>Bloom: ${p.bloomEnabled ? 'Yes' : 'No'}
-            </div>
-          `;
-          card.onclick = () => { appState.session.profileData = p; renderProfile(p); };
+          card.className = 'card'; card.style.cursor = 'pointer';
+          card.innerHTML = `<strong>${p.title}</strong><div style="font-family: var(--font-mono); font-size: 0.8rem; margin-top:8px;">Ratio: 1:${p.ratio}</div>`;
+          card.onclick = () => loadProfileForChat(p);
           container.appendChild(card);
         });
       }
     }
 
-    // --- STEP 3: PROFILE ---
-    async function generateNewProfile() {
+    // --- STEP 3: AI PROFILE & CHAT ---
+    async function startAIProfile() {
       setStep(3);
-      document.getElementById('profile-title-display').innerText = "Generating AI Profile...";
+      document.getElementById('profile-title-display').innerText = "Generating Profile...";
       document.getElementById('profile-meta-grid').innerHTML = '<span class="loading">Crafting parameters...</span>';
-      document.getElementById('profile-chart').innerHTML = '';
-      document.getElementById('profile-actions').style.display = 'none';
-
+      document.getElementById('chat-history').innerHTML = '';
+      
       const d = appState.session.coffeeData;
-      const p = appState.prefs;
-      const prompt = `Expert Fellow Aiden barista. Generate an optimal Aiden profile for: ${d.name} by ${d.roaster}. Origin: ${d.origin}. Process: ${d.process}. Roast: ${d.roastLevel}. Freshness: ${d.freshness}. Flavors: ${d.flavors}. User flavor preferences — likes: ${p.enjoy.join(',')}, dislikes: ${p.avoid.join(',')}. Body: ${p.body}. Acidity: ${p.acidity}. Aim: ${p.aim}. Return ONLY a JSON object (no markdown) with ALL fields: profileType (always 0), title (under 30 chars, regular hyphens only), ratio (number 14-17), bloomEnabled (bool), bloomRatio (number 2-3), bloomDuration (seconds 30-50), bloomTemperature (C 88-96), ssPulsesEnabled (bool), ssPulsesNumber (int, 2-6 if enabled else 0), ssPulsesInterval (seconds), ssPulseTemperatures (array, length must equal ssPulsesNumber), batchPulsesEnabled (bool), batchPulsesNumber (int, 1-3 if enabled else 0), batchPulsesInterval (seconds), batchPulseTemperatures (array, length must equal batchPulsesNumber), _why (2-3 sentences explaining).`;
-
+      const sys = `You are an expert Fellow Aiden barista. You must return ONLY valid JSON matching this exact schema: ${JSON_SCHEMA}. Do not include markdown fences.`;
+      const prompt = `Create an Aiden profile for: ${d.name} by ${d.roaster}. Origin: ${d.origin}. Process: ${d.process}. Roast: ${d.roastLevel}. User prefers: ${appState.prefs.enjoy.join(',')}. User avoids: ${appState.prefs.avoid.join(',')}. Target single serve: ${appState.prefs.singleVol}ml. Target batch: ${appState.prefs.batchVol}ml. Equipment: Grinders ${JSON.stringify(appState.gear.grinders)}. Evaluate and recommend a specific grinder and starting setting.`;
+      
+      appState.session.chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+      
       try {
-        const result = await callGemini(prompt);
+        const result = await callGemini(sys, appState.session.chatHistory);
+        appState.session.chatHistory.push({ role: "model", parts: [{ text: JSON.stringify(result) }] });
         appState.session.profileData = result;
-        renderProfile(result);
+        renderProfileToUI(result);
+        addChatMessage("ai", "I've generated an initial profile based on your preferences. Want me to adjust the ratio, pulses, or grind setting?");
       } catch (err) {
         document.getElementById('profile-meta-grid').innerHTML = `<span style="color:red">Error: ${err.message}</span>`;
       }
     }
 
-    function renderProfile(profile) {
+    function loadProfileForChat(p) {
       setStep(3);
-      document.getElementById('profile-actions').style.display = 'flex';
-      document.getElementById('profile-title-display').innerText = profile.title;
+      appState.session.profileData = p;
+      appState.session.chatHistory = [
+        { role: "user", parts: [{ text: "I selected this community profile. Load it into context." }] },
+        { role: "model", parts: [{ text: JSON.stringify(p) }] }
+      ];
+      renderProfileToUI(p);
+      document.getElementById('chat-history').innerHTML = '';
+      addChatMessage("ai", "Community profile loaded! What would you like to tweak before finalizing?");
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const msg = input.value.trim();
+      if(!msg) return;
+      
+      addChatMessage("user", msg);
+      input.value = "";
+      addChatMessage("ai", '<span class="loading">Updating profile...</span>', "loading-msg");
+
+      const sys = `You are an expert Fellow Aiden barista. Update the current profile based on the user's request. You must return ONLY valid JSON matching this exact schema: ${JSON_SCHEMA}. Keep the title descriptive.`;
+      appState.session.chatHistory.push({ role: "user", parts: [{ text: msg }] });
+
+      try {
+        const result = await callGemini(sys, appState.session.chatHistory);
+        appState.session.chatHistory.push({ role: "model", parts: [{ text: JSON.stringify(result) }] });
+        appState.session.profileData = result;
+        
+        document.getElementById('loading-msg').remove();
+        renderProfileToUI(result);
+        addChatMessage("ai", "Profile updated! Look good?");
+      } catch (err) {
+        document.getElementById('loading-msg').innerText = "Error updating profile.";
+        appState.session.chatHistory.pop(); // Remove failed user msg
+      }
+    }
+
+    function addChatMessage(role, html, id="") {
+      const hist = document.getElementById('chat-history');
+      const div = document.createElement('div');
+      div.className = `chat-bubble chat-${role}`;
+      if(id) div.id = id;
+      div.innerHTML = html;
+      hist.appendChild(div);
+      hist.scrollTop = hist.scrollHeight;
+    }
+
+    function renderProfileToUI(p) {
+      document.getElementById('profile-title-display').innerText = p.title || "Custom Profile";
+      document.getElementById('profile-grind-display').innerText = p.grinderModel ? `${p.grinderModel} @ ${p.grindSetting}` : '';
       
       const grid = document.getElementById('profile-meta-grid');
       grid.innerHTML = `
-        <div><span class="metadata-label">Ratio</span><span class="metadata-value">1:${profile.ratio}</span></div>
-        <div><span class="metadata-label">Bloom</span><span class="metadata-value">${profile.bloomEnabled ? profile.bloomTemperature+'°C / '+profile.bloomDuration+'s' : 'Disabled'}</span></div>
-        <div><span class="metadata-label">Bloom Ratio</span><span class="metadata-value">1:${profile.bloomRatio || '-'}</span></div>
-        <div><span class="metadata-label">SS Pulses</span><span class="metadata-value">${profile.ssPulsesEnabled ? profile.ssPulsesNumber : '0'}</span></div>
-        <div><span class="metadata-label">SS Interval</span><span class="metadata-value">${profile.ssPulsesInterval || '-'}s</span></div>
-        <div><span class="metadata-label">Batch Pulses</span><span class="metadata-value">${profile.batchPulsesEnabled ? profile.batchPulsesNumber : '0'}</span></div>
+        <div><span class="metadata-label">Ratio</span><span class="metadata-value">1:${p.ratio}</span></div>
+        <div><span class="metadata-label">Bloom</span><span class="metadata-value">${p.bloomEnabled ? p.bloomTemperature+'°C / '+p.bloomDuration+'s' : 'Disabled'}</span></div>
+        <div><span class="metadata-label">SS Pulses</span><span class="metadata-value">${p.ssPulsesEnabled ? p.ssPulsesNumber : '0'}</span></div>
+        <div><span class="metadata-label">Batch Pulses</span><span class="metadata-value">${p.batchPulsesEnabled ? p.batchPulsesNumber : '0'}</span></div>
       `;
-      document.getElementById('profile-why').innerText = profile._why || "Community profile.";
-      renderChart(profile);
     }
 
-    function renderChart(p) {
-      const container = document.getElementById('profile-chart');
-      container.innerHTML = '';
-      const pulses = [];
-      if (p.bloomEnabled) pulses.push({ name: 'Bloom', temp: p.bloomTemperature });
-      if (p.ssPulsesEnabled) p.ssPulseTemperatures.forEach((t, i) => pulses.push({ name: `P${i+1}`, temp: t }));
-      if (p.batchPulsesEnabled) p.batchPulseTemperatures.forEach((t, i) => pulses.push({ name: `B${i+1}`, temp: t }));
-
-      if(pulses.length === 0) return;
-      const minTemp = 80;
-      const maxTemp = Math.max(...pulses.map(x=>x.temp), 100);
-
-      pulses.forEach(pulse => {
-        const heightPct = Math.max(10, ((pulse.temp - minTemp) / (maxTemp - minTemp)) * 100);
-        container.innerHTML += `
-          <div class="bar-wrapper">
-            <span class="bar-temp">${pulse.temp}°</span>
-            <div class="bar" style="height: ${heightPct}%"></div>
-            <span class="bar-label">${pulse.name}</span>
-          </div>
-        `;
-      });
-    }
-
-    function getStrippedProfile() {
-      const clone = JSON.parse(JSON.stringify(appState.session.profileData));
-      ['id', 'createdAt', 'deletedAt', 'lastUsedTime', 'sharedFrom', 'isDefaultProfile', 'instantBrew', 'folder', 'duration', 'lastGBQuantity', '_why'].forEach(k => delete clone[k]);
-      return clone;
-    }
-
-    async function pushToAiden() {
-      const { email, password } = appState.account;
-      const statusEl = document.getElementById('push-status');
-      if (!email || !password) {
-        statusEl.style.color = "var(--error-color)";
-        statusEl.innerText = "Please enter Fellow credentials in Account tab.";
-        return;
-      }
-
-      statusEl.style.color = "var(--accent-color)";
-      statusEl.innerHTML = '<span class="loading">Authenticating...</span>';
-      
-      try {
-        // Headers configuration - Note: browsers block overwriting User-Agent natively via Fetch API standard.
-        // Attempting to append it, but aware it may be ignored by the browser security model.
-        const baseHeaders = { "Content-Type": "application/json", "User-Agent": "Fellow/5 CFNetwork/1568.300.101 Darwin/24.2.0" };
-        const baseApi = "https://l8qtmnc692.execute-api.us-west-2.amazonaws.com/v1";
-        
-        const loginRes = await fetch(`${baseApi}/auth/login`, { method: "POST", headers: baseHeaders, body: JSON.stringify({ email, password }) });
-        const loginData = await loginRes.json();
-        if(!loginData.accessToken) throw new Error("Auth failed");
-        const token = loginData.accessToken;
-        
-        statusEl.innerHTML = '<span class="loading">Finding device...</span>';
-        const devRes = await fetch(`${baseApi}/devices`, { headers: { ...baseHeaders, "Authorization": `Bearer ${token}` } });
-        const devData = await devRes.json();
-        if(!devData.devices || !devData.devices.length) throw new Error("No Aiden found");
-        const devId = devData.devices[0].id;
-
-        statusEl.innerHTML = '<span class="loading">Uploading profile...</span>';
-        const profile = getStrippedProfile();
-        const profRes = await fetch(`${baseApi}/devices/${devId}/profiles`, { method: "POST", headers: { ...baseHeaders, "Authorization": `Bearer ${token}` }, body: JSON.stringify(profile) });
-        const profData = await profRes.json();
-        
-        statusEl.innerHTML = '<span class="loading">Generating share link...</span>';
-        const shareRes = await fetch(`${baseApi}/devices/${devId}/profiles/${profData.profileId}/share`, { method: "POST", headers: { ...baseHeaders, "Authorization": `Bearer ${token}` } });
-        const shareData = await shareRes.json();
-        
-        appState.session.brewLink = shareData.shareUrl || "Profile Pushed successfully";
-        statusEl.style.color = "var(--success-color)";
-        statusEl.innerText = "Success! " + appState.session.brewLink;
-
-      } catch (err) {
-        statusEl.style.color = "var(--error-color)";
-        statusEl.innerText = `Error: ${err.message}`;
-      }
-    }
-
-    // --- STEP 4: GRIND ---
-    async function getGrindSettings() {
+    // --- STEP 4: SHARE & HISTORY ---
+    function finalizeBrew() {
       setStep(4);
-      const d = appState.session.coffeeData;
-      const p = appState.session.profileData;
-      const grinders = appState.gear.grinders.map(g => `${g.model} with ${g.burr}`).join('; ');
+      const linkContainer = document.getElementById('link-container');
+      const shareBtn = document.getElementById('btn-share-brewshare');
       
-      const statusEl = document.getElementById('grind-status');
-      if (!grinders) {
-        statusEl.innerText = "No grinders logged in Gear tab. Add some for specific recommendations!";
+      if(appState.session.link) {
+        shareBtn.style.display = 'none';
+        linkContainer.style.display = 'block';
+        document.getElementById('done-link').href = appState.session.link;
+        document.getElementById('done-link').innerText = appState.session.link;
+      } else {
+        shareBtn.style.display = 'block';
+        linkContainer.style.display = 'none';
+      }
+      saveToHistory();
+    }
+
+    async function shareToBrewshare() {
+      const btn = document.getElementById('btn-share-brewshare');
+      const statusEl = document.getElementById('share-status');
+      
+      if(!appState.account.email) {
+        statusEl.innerHTML = `<span style="color:var(--error-color)">Missing Brewshare email. Add in Account tab.</span>`;
         return;
       }
-      
-      statusEl.innerHTML = '<span class="loading">Calculating grind sizes...</span>';
-      const prompt = `Specialty coffee expert with deep grinder knowledge. Coffee: ${d.name} by ${d.roaster}. Process: ${d.process}. Roast: ${d.roastLevel}. Profile ratio 1:${p.ratio}. Grinders: ${grinders}. Return ONLY a JSON object (no markdown): { "grinders": [{"model": "string", "setting": "string", "direction": "string", "note": "string"}], "tips": ["tip1","tip2","tip3"] }.`;
 
+      btn.disabled = true;
+      statusEl.innerHTML = '<span class="loading">Submitting to Brewshare...</span>';
+
+      const payload = { ...appState.session.profileData, authorEmail: appState.account.email };
+      
       try {
-        const result = await callGemini(prompt);
-        renderGrindResults(result);
+        const res = await fetch('https://brewshare.coffee/api/profiles', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+        const data = await res.json();
+        
+        // Mocking the link logic assuming the API returns an ID or direct URL
+        const link = data.url || `https://brewshare.coffee/profile/${data.id || Date.now()}`;
+        appState.session.link = link;
+        
         statusEl.innerText = "";
-      } catch (err) {
-        statusEl.innerText = `Error: ${err.message}`;
+        finalizeBrew(); // Re-render step 4
+      } catch (e) {
+        statusEl.innerHTML = `<span style="color:var(--error-color)">Error connecting to Brewshare.</span>`;
+        btn.disabled = false;
       }
     }
 
-    function renderGrindResults(data) {
-      const container = document.getElementById('grind-results');
-      container.innerHTML = '';
-      data.grinders.forEach((g, i) => {
-        container.innerHTML += `
-          <div class="card" style="border-left: 4px solid ${i===0 ? 'var(--accent-color)' : 'var(--border-color)'}">
-            ${i===0 ? '<span class="tag" style="background:var(--accent-color); color:white; padding:2px 6px; border-radius:4px;">Best Choice</span><br><br>' : ''}
-            <span class="metadata-label">${g.model}</span>
-            <span class="metadata-value" style="font-size:1.5rem; color:var(--accent-color);">${g.setting}</span>
-            <p style="font-size:0.9rem; margin-bottom:4px;"><strong>Adjust:</strong> ${g.direction}</p>
-            <p style="font-size:0.85rem; color:gray; margin:0;">${g.note}</p>
-          </div>
-        `;
-      });
-      document.getElementById('grind-tips').style.display = 'block';
-      document.getElementById('grind-tips-list').innerHTML = data.tips.map(t => `<li>${t}</li>`).join('');
-    }
-
-    // --- STEP 5: DONE & HISTORY ---
-    function finishBrew() {
-      setStep(5);
-      const linkEl = document.getElementById('done-link');
-      linkEl.innerText = appState.session.brewLink ? `Share: ${appState.session.brewLink}` : "";
+    function saveToHistory() {
+      // Remove any existing entry for this specific active session to prevent duplicates
+      appState.history = appState.history.filter(h => h.sessionId !== appState.session.sessionId);
       
-      // Save to history
+      if(!appState.session.sessionId) appState.session.sessionId = Date.now();
+
       const sessionData = {
-        id: Date.now(),
+        sessionId: appState.session.sessionId,
         date: new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }),
         coffee: appState.session.coffeeData,
         profile: appState.session.profileData,
-        link: appState.session.brewLink
+        link: appState.session.link
       };
       
       appState.history.unshift(sessionData);
@@ -680,175 +674,73 @@
       if(!list) return;
       list.innerHTML = '';
       
-      appState.history.filter(h => 
-        !term || 
-        h.coffee?.name.toLowerCase().includes(term) || 
-        h.coffee?.roaster.toLowerCase().includes(term)
-      ).forEach(h => {
+      appState.history.filter(h => !term || h.coffee?.name.toLowerCase().includes(term) || h.coffee?.roaster?.toLowerCase().includes(term)).forEach(h => {
         const card = document.createElement('div');
-        card.className = 'card';
-        card.style.cursor = 'pointer';
+        card.className = 'card'; card.style.cursor = 'pointer';
         card.innerHTML = `
           <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-            <div>
-              <strong>${h.coffee?.name || 'Unknown Coffee'}</strong>
-              <div style="font-size:0.8rem; color:gray; margin-bottom:8px;">${h.coffee?.roaster || 'Unknown Roaster'}</div>
-            </div>
+            <div><strong>${h.coffee?.name || 'Unknown Coffee'}</strong><div style="font-size:0.8rem; color:gray; margin-bottom:8px;">${h.coffee?.roaster || 'Unknown Roaster'}</div></div>
             <span class="tag">${h.date}</span>
           </div>
           <div style="display:flex; gap:4px; flex-wrap:wrap;">
-            <span class="tag" style="background:var(--border-color); padding:2px 6px; border-radius:4px;">${h.coffee?.roastLevel || 'N/A'}</span>
-            <span class="tag" style="background:var(--border-color); padding:2px 6px; border-radius:4px;">${h.coffee?.process || 'N/A'}</span>
             ${h.link ? `<span class="tag" style="background:var(--accent-color); color:white; padding:2px 6px; border-radius:4px;">brew.link</span>` : ''}
           </div>
         `;
-        card.onclick = () => restoreSession(h);
+        card.onclick = () => {
+          document.querySelector('[data-tab="brew"]').click();
+          appState.session = { sessionId: h.sessionId, coffeeInput: h.coffee?.name, coffeeData: h.coffee, profileData: h.profile, chatHistory: [], link: h.link };
+          renderCoffeeResult(h.coffee);
+          document.getElementById('coffee-result').style.display = 'block';
+          loadProfileForChat(h.profile);
+        };
         list.appendChild(card);
       });
     }
 
-    function restoreSession(h) {
-      document.querySelector('[data-tab="brew"]').click();
-      appState.session = { coffeeInput: "", coffeeData: h.coffee, profileData: h.profile, brewLink: h.link };
-      if (h.profile) {
-        renderCoffeeResult(h.coffee);
-        document.getElementById('coffee-result').style.display = 'block';
-        renderProfile(h.profile);
-      } else {
-        document.getElementById('coffee-input').value = h.coffee?.name || "";
-        setStep(1);
-      }
-    }
-
-    // --- PREFERENCES ---
-    function renderPrefs() {
-      const renderChips = (type, list) => {
-        const container = document.getElementById(`chips-${type}`);
-        container.innerHTML = list.map(f => {
-          const selected = appState.prefs[type].includes(f);
-          return `<div class="chip ${type} ${selected ? 'selected' : ''}" data-type="${type}" data-flavor="${f}">${f}</div>`;
-        }).join('');
-      };
-      renderChips('enjoy', FLAVORS.enjoy);
-      renderChips('avoid', FLAVORS.avoid);
-
-      ['body', 'acidity', 'strength', 'aim', 'waterSource'].forEach(k => {
-        document.getElementById(`pref-${k.toLowerCase()}`).value = appState.prefs[k];
-      });
-      document.getElementById('pref-water-tds').value = appState.prefs.waterTds;
-      document.getElementById('pref-water-notes').value = appState.prefs.waterNotes;
-    }
-
-    function savePrefs() {
-      ['body', 'acidity', 'strength', 'aim', 'waterSource'].forEach(k => {
-        appState.prefs[k] = document.getElementById(`pref-${k.toLowerCase()}`).value;
-      });
-      appState.prefs.waterTds = document.getElementById('pref-water-tds').value;
-      appState.prefs.waterNotes = document.getElementById('pref-water-notes').value;
-      STORAGE.set('abs_prefs', appState.prefs);
-      
-      const s = document.getElementById('prefs-save-status');
-      s.innerText = "Saved";
-      setTimeout(() => s.innerText = "", 2000);
-    }
-
-    // --- GEAR ---
-    function renderGear() {
-      document.getElementById('gear-dose').value = appState.gear.defaultDose;
-      const list = document.getElementById('grinder-list');
-      list.innerHTML = '';
-      appState.gear.grinders.forEach((g, i) => {
-        list.innerHTML += `
-          <div class="card grid-2" style="position:relative;">
-            <div><label class="metadata-label">Model</label><input type="text" value="${g.model}" onchange="updateGrinder(${i}, 'model', this.value)"></div>
-            <div><label class="metadata-label">Burr Set</label><input type="text" value="${g.burr}" onchange="updateGrinder(${i}, 'burr', this.value)"></div>
-            <button class="secondary" style="grid-column:1/-1; color:var(--error-color); border-color:var(--error-color);" onclick="removeGrinder(${i})">Remove</button>
-          </div>
-        `;
-      });
-    }
-
-    window.updateGrinder = (i, field, val) => { appState.gear.grinders[i][field] = val; };
-    window.removeGrinder = (i) => { appState.gear.grinders.splice(i, 1); renderGear(); };
-
-    // --- ACCOUNT ---
-    function renderAccount() {
-      document.getElementById('acc-api-key').value = appState.apiKey;
-      document.getElementById('acc-email').value = appState.account.email;
-      document.getElementById('acc-password').value = appState.account.password;
-    }
-
-    // --- EVENT LISTENERS ---
+    // --- EVENTS ---
     function bindEvents() {
-      // Brew Step Buttons
       document.getElementById('btn-analyze-coffee').addEventListener('click', analyzeCoffee);
-      document.getElementById('btn-reanalyze').addEventListener('click', analyzeCoffee);
-      document.getElementById('btn-to-browse').addEventListener('click', browseProfiles);
-      document.getElementById('btn-generate-new').addEventListener('click', generateNewProfile);
-      document.getElementById('btn-to-grind').addEventListener('click', getGrindSettings);
-      document.getElementById('btn-to-done').addEventListener('click', finishBrew);
+      document.getElementById('btn-to-browse').addEventListener('click', searchBrewshare);
+      document.getElementById('btn-generate-new').addEventListener('click', startAIProfile);
+      
+      document.getElementById('btn-chat-send').addEventListener('click', sendChatMessage);
+      document.getElementById('chat-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendChatMessage(); });
+      
+      document.getElementById('btn-to-done').addEventListener('click', finalizeBrew);
+      document.getElementById('btn-share-brewshare').addEventListener('click', shareToBrewshare);
+      
       document.getElementById('btn-new-brew').addEventListener('click', () => {
-        appState.session = { coffeeInput: "", coffeeData: null, profileData: null, brewLink: null };
-        document.getElementById('coffee-input').value = "";
+        appState.session = { sessionId: null, coffeeInput: "", coffeeData: null, profileData: null, chatHistory: [], link: null };
+        document.getElementById('coffee-name').value = ""; document.getElementById('coffee-age').value = "";
         document.getElementById('coffee-result').style.display = 'none';
         setStep(1);
       });
 
-      // Actions
-      document.getElementById('btn-copy-json').addEventListener('click', () => {
-        navigator.clipboard.writeText(JSON.stringify(getStrippedProfile(), null, 2));
-        const btn = document.getElementById('btn-copy-json');
-        btn.innerText = "Copied!"; setTimeout(() => btn.innerText = "Copy JSON", 2000);
-      });
-      document.getElementById('btn-submit-brewshare').addEventListener('click', async () => {
-        const btn = document.getElementById('btn-submit-brewshare');
-        btn.innerText = "Submitting...";
-        try {
-          await fetch('https://brewshare.coffee/api/profiles', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(getStrippedProfile()) });
-          btn.innerText = "Submitted!";
-        } catch(e) { btn.innerText = "Error"; }
-        setTimeout(() => btn.innerText = "Submit to Brewshare", 2000);
-      });
-      document.getElementById('btn-push-aiden').addEventListener('click', pushToAiden);
-
-      // Prefs
-      document.getElementById('tab-prefs').addEventListener('click', (e) => {
-        if(e.target.classList.contains('chip')) {
-          const type = e.target.dataset.type;
-          const flavor = e.target.dataset.flavor;
-          if(appState.prefs[type].includes(flavor)) {
-            appState.prefs[type] = appState.prefs[type].filter(f => f !== flavor);
-            e.target.classList.remove('selected');
-          } else {
-            appState.prefs[type].push(flavor);
-            e.target.classList.add('selected');
-          }
-          savePrefs();
-        }
-      });
-      document.querySelectorAll('#tab-prefs select, #tab-prefs input, #tab-prefs textarea').forEach(el => el.addEventListener('change', savePrefs));
-
-      // Gear
-      document.getElementById('btn-add-grinder').addEventListener('click', () => {
-        appState.gear.grinders.push({ model: '', burr: '' });
-        renderGear();
-      });
+      // Saving tabs
+      const showSave = (id) => { const el = document.getElementById(id); el.innerText = "Saved"; setTimeout(()=>el.innerText="", 2000); };
+      
       document.getElementById('btn-save-gear').addEventListener('click', () => {
-        appState.gear.defaultDose = document.getElementById('gear-dose').value;
+        appState.gear.waterSource = document.getElementById('gear-water-source').value;
+        appState.gear.waterNotes = document.getElementById('gear-water-notes').value;
         STORAGE.set('abs_gear', appState.gear);
-        const s = document.getElementById('gear-save-status'); s.innerText = "Gear Saved!"; setTimeout(() => s.innerText = "", 2000);
+        showSave('gear-save-status');
       });
 
-      // Account
       document.getElementById('btn-save-account').addEventListener('click', () => {
         appState.apiKey = document.getElementById('acc-api-key').value;
+        appState.account.email = document.getElementById('acc-email').value;
         localStorage.setItem('abs_apikey', appState.apiKey);
-        appState.account = { email: document.getElementById('acc-email').value, password: document.getElementById('acc-password').value };
         STORAGE.set('abs_account', appState.account);
-        const s = document.getElementById('acc-save-status'); s.innerText = "Credentials Saved!"; setTimeout(() => s.innerText = "", 2000);
+        showSave('acc-save-status');
       });
 
-      // History Search
+      document.querySelectorAll('#tab-prefs input').forEach(el => el.addEventListener('change', () => {
+        appState.prefs.singleVol = parseInt(document.getElementById('pref-vol-single').value);
+        appState.prefs.batchVol = parseInt(document.getElementById('pref-vol-batch').value);
+        STORAGE.set('abs_prefs', appState.prefs);
+        showSave('prefs-save-status');
+      }));
+      
       document.getElementById('history-search').addEventListener('input', renderHistory);
     }
 
